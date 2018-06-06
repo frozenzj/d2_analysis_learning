@@ -18,7 +18,7 @@ def get_ran_match_id(limi=1):
     return rec
 #output match_info by match_id
 def get_api_json(match_id):
-    r=requests.get('https:/api.opendota.com/api/matches/{}'.format(match_id),timeout=3)
+    r=requests.get('https://api.opendota.com/api/matches/{}'.format(match_id),timeout=3)
     r_json=r.json()
     return r_json
 #TEAM_GOLD
