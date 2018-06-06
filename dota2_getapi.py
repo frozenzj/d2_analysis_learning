@@ -2,20 +2,20 @@ import requests
 #EZ output random match_id
 def get_ran_match_id(limi=1):
 #    def ransql(limi=1):
-        sql='''select matches.match_id
-        from matches
-        order by random()
-        limit %s'''%(limi)
+    i=0
+    rec=[]
+    sql='''select matches.match_id
+    from matches
+    order by random()
+    limit %s'''%(limi)
 #        return sql
-#        i=0
-#        rec=[]
-        r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql))
-        r_json=r.json()
-        rMi=r_json['rows']
-        return rMi
-#        for i in range(len(rMi)):
-#            rec[i]=rMi[i]['match_id']
-#        return rec
+    r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql))
+    r_json=r.json()
+    rMi=r_json['rows']
+#        return rMi
+    for i in range(len(rMi)):
+        rec.append(rMi[i]['match_id'])
+    return rec
 #output match_info by match_id
 def get_api_json(match_id):
     r=requests.get('https:/api.opendota.com/api/matches/{}'.format(match_id),timeout=3)
