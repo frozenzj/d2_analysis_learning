@@ -9,7 +9,7 @@ def get_ran_match_id(limi=1):
     order by random()
     limit %s'''%(limi)
 #        return sql
-    r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql))
+    r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql),timeout=3)
     r_json=r.json()
     rMi=r_json['rows']
 #        return rMi
