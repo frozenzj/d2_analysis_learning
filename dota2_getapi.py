@@ -23,15 +23,11 @@ def get_api_json(match_id):
     return r_json
 #TEAM_GOLD
 #match_info = apimatch.json()    slot_s = start slot num.   slot_e = end slot num.
-def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
+def get_totalgold(match_info,slot_s=0,slot_e=5):
     i=0
     j=0
     k=0
-    if matchtype==1:
-        for i in range(slot_s,slot_e):
-            k=match_info['players'][i]['total_gold']
-            j=j+k
-        return j
-#    elif matchtype==2:
-#        for i in range(slot_s,slot_e):
-#            if match_info['players'][i]['total_gold']:
+    for i in range(slot_s,slot_e):
+        k=match_info['players'][i]['total_gold']
+        j=j+k
+    return j
