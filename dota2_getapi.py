@@ -9,7 +9,7 @@ def get_ran_match_id(limi=1):
     order by random()
     limit %s'''%(limi)
 #        return sql
-    r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql),timeout=3)
+    r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql))
     r_json=r.json()
     rMi=r_json['rows']
 #        return rMi
@@ -29,6 +29,7 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
     k1=0
     j2=0
     k2=0
+    r_w=bool
     if matchtype==1:
         for i in range(slot_s,slot_e):
             k1=match_info['players'][i]['total_gold']
@@ -42,4 +43,8 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
             else:
                 k2=match_info['players'][i]['total_gold']
                 j2=j2+k2
-        return j1,j2
+        if match_info['radiant_win']==True:
+            r_w=True
+        else:
+            r_w=False
+        return j1,j2,r_w
