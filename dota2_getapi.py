@@ -57,8 +57,7 @@ def get_sleep_api(id):
     #sleep module to get match_info
     for i in range(len(id)):
         minfo200.append(get_api_json(id[i]))
-        if i%60==0:
-            time.sleep(61)
+        time.sleep(1)
     #define i,k,matchid_from_minfo200
     i=0
     k=[]
