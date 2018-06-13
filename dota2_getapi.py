@@ -50,14 +50,14 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
         else:
             r_w=False
         return j1,j2,r_w
-def get_sleep_api(id):
+def get_sleep_api(id,sleepT=1):
     #define i,minfo200
     i=0
     minfo200=[]
     #sleep module to get match_info
     for i in range(len(id)):
         minfo200.append(get_api_json(id[i]))
-        time.sleep(1)
+        time.sleep(int(sleepT))
     #define i,k,matchid_from_minfo200
     i=0
     k=[]
