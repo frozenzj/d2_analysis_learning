@@ -50,7 +50,7 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
         else:
             r_w=False
         return j1,j2,r_w
-def get_sleep_api(id,sleepT=1):
+def get_sleep_api(id,sleepT=2):
     #define i,minfo200
     i=0
     minfo200=[]
