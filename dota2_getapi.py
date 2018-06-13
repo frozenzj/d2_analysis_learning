@@ -1,4 +1,6 @@
 import requests
+import time
+import json
 #EZ output random match_id
 def get_ran_match_id(limi=1):
 #    def ransql(limi=1):
@@ -9,7 +11,7 @@ def get_ran_match_id(limi=1):
     order by random()
     limit %s'''%(limi)
 #        return sql
-    r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql))
+    r=requests.get('https://api.opendota.com/api/explorer?sql={}'.format(sql),timeout=3)
     r_json=r.json()
     rMi=r_json['rows']
 #        return rMi
@@ -18,7 +20,7 @@ def get_ran_match_id(limi=1):
     return rec
 #output match_info by match_id
 def get_api_json(match_id):
-    r=requests.get('https://api.opendota.com/api/matches/{}'.format(match_id),timeout=3)
+    r=requests.get('https://api.opendota.com/api/matches/{}'.format(match_id))
     r_json=r.json()
     return r_json
 #TEAM_GOLD
@@ -48,3 +50,38 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
         else:
             r_w=False
         return j1,j2,r_w
+def get_sleep_api(id):
+    #define i,minfo200
+    i=0
+    minfo200=[]
+    #sleep module to get match_info
+    for i in range(len(id)):
+        minfo200.append(get_api_json(id[i]))
+        if i%60==0:
+            time.sleep(61)
+    #define i,k,matchid_from_minfo200
+    i=0
+    k=[]
+    mid_from_minfo200=[]
+    #judge 'error' information & miss match_info -->return minfo200
+    for i in range(len(minfo200)):
+        if 'error' in minfo200[i]:
+            k.append(i)
+    if len(k)!=0:
+        print("Rate limit exceeded!!!")
+        return minfo200
+    else:
+        if len(id)==len(minfo200):
+            print("All done!")
+            return minfo200
+        else:
+            i=0
+            for i in range(len(minfo200)):
+                mid_from_minfo200.append(minfo200[i]['match_id'])
+            i=0
+            for i in range(len(id)):
+                if id[i] not in mid_from_minfo200:
+                    k.append(id[i])
+                    minfo200=minfo200+k
+            print("Match_id:"+k+" is missing,Already fixed it!")
+            return minfo200
