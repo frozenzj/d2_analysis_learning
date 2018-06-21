@@ -18,7 +18,7 @@ def get_ran_match_id(limi=1):
     return rec
 #output match_info by match_id
 def get_api_json(match_id):
-    r=requests.get('https://api.opendota.com/api/matches/{}'.format(match_id),timeout=3)
+    r=requests.get('https://api.opendota.com/api/matches/{}'.format(match_id))
     r_json=r.json()
     return r_json
 #TEAM_GOLD
@@ -29,6 +29,7 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
     k1=0
     j2=0
     k2=0
+    R_win=bool
     if matchtype==1:
         for i in range(slot_s,slot_e):
             k1=match_info['players'][i]['total_gold']
@@ -42,4 +43,11 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
             else:
                 k2=match_info['players'][i]['total_gold']
                 j2=j2+k2
-        return j1,j2
+        if match_info['radiant_win']==None:
+            R_win=None
+        elif match_info['radiant_win']==True:
+            R_win=True
+        else:
+            R_win=False
+            
+        return j1,j2,R_win
