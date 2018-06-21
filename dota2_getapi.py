@@ -1,4 +1,6 @@
 import requests
+import time
+import json
 #EZ output random match_id
 def get_ran_match_id(limi=1):
 #    def ransql(limi=1):
@@ -29,7 +31,11 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
     k1=0
     j2=0
     k2=0
+<<<<<<< HEAD
     R_win=bool
+=======
+    r_w=bool
+>>>>>>> 97e54437117a58992d2293bb9265ac01568dac9c
     if matchtype==1:
         for i in range(slot_s,slot_e):
             k1=match_info['players'][i]['total_gold']
@@ -43,6 +49,7 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
             else:
                 k2=match_info['players'][i]['total_gold']
                 j2=j2+k2
+<<<<<<< HEAD
         if match_info['radiant_win']==None:
             R_win=None
         elif match_info['radiant_win']==True:
@@ -51,3 +58,44 @@ def get_totalgold(match_info,slot_s=0,slot_e=5,matchtype=1):
             R_win=False
             
         return j1,j2,R_win
+=======
+        if match_info['radiant_win']==True:
+            r_w=True
+        else:
+            r_w=False
+        return j1,j2,r_w
+def get_sleep_api(id,sleepT=2):
+    #define i,minfo200
+    i=0
+    minfo200=[]
+    #sleep module to get match_info
+    for i in range(len(id)):
+        minfo200.append(get_api_json(id[i]))
+        time.sleep(int(sleepT))
+    #define i,k,matchid_from_minfo200
+    i=0
+    k=[]
+    mid_from_minfo200=[]
+    #judge 'error' information & miss match_info -->return minfo200
+    for i in range(len(minfo200)):
+        if 'error' in minfo200[i]:
+            k.append(i)
+    if len(k)!=0:
+        print("Rate limit exceeded!!!")
+        return minfo200
+    else:
+        if len(id)==len(minfo200):
+            print("All done!")
+            return minfo200
+        else:
+            i=0
+            for i in range(len(minfo200)):
+                mid_from_minfo200.append(minfo200[i]['match_id'])
+            i=0
+            for i in range(len(id)):
+                if id[i] not in mid_from_minfo200:
+                    k.append(id[i])
+                    minfo200=minfo200+k
+            print("Match_id:"+k+" is missing,Already fixed it!")
+            return minfo200
+>>>>>>> 97e54437117a58992d2293bb9265ac01568dac9c
